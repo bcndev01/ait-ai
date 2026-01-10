@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Twitter, Instagram, Github } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -14,6 +15,33 @@ const Footer: React.FC = () => {
             <p className="text-gray-400 text-sm leading-relaxed">
               The AI study companion that turns your notes into interactive learning experiences.
             </p>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-white mb-4">Legal</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/privacy-policy" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-of-service" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-white mb-4">Support</h4>
+            <ul className="space-y-2">
+              <li>
+                <a href="mailto:support@aceitai.app" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">
+                  support@aceitai.app
+                </a>
+              </li>
+            </ul>
           </div>
 
           <div>
@@ -33,10 +61,18 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">© 2026 AceIt AI Inc. All rights reserved.</p>
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-xs text-gray-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            All systems operational
+          <p className="text-sm text-gray-500">© 2025 AceIt AI. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link to="/privacy-policy" className="text-xs text-gray-500 hover:text-gray-400 transition-colors">
+              Privacy
+            </Link>
+            <Link to="/terms-of-service" className="text-xs text-gray-500 hover:text-gray-400 transition-colors">
+              Terms
+            </Link>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-xs text-gray-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              All systems operational
+            </div>
           </div>
         </div>
       </div>

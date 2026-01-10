@@ -60,10 +60,26 @@ const GlowRing: React.FC<{ size: number; delay: number; color: string }> = ({ si
     );
 };
 
+// 3D Model showcase images - add your images to /public/images/3d-models/
+const showcaseImages = [
+    { src: '/images/3d-models/heart.png', alt: 'Human Heart 3D Model' },
+    { src: '/images/3d-models/brain.png', alt: 'Human Brain 3D Model' },
+    { src: '/images/3d-models/eye.png', alt: 'Human Eye 3D Model' },
+];
+
 const FeatureSpotlight: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
     const { scrollYProgress } = useScroll();
     const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+    // Auto-slide every 3 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % showcaseImages.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     // Mouse parallax
     const mouseX = useMotionValue(0);
@@ -319,21 +335,43 @@ const FeatureSpotlight: React.FC = () => {
                                             <div className="w-1.5 h-1.5 rounded-full bg-gray-700" />
                                         </div>
 
-                                        {/* Main Video */}
-                                        <div className="absolute inset-0 bg-black">
-                                            <video
-                                                className="w-full h-full object-cover"
-                                                autoPlay
-                                                loop
-                                                muted
-                                                playsInline
+                                        {/* Auto-sliding 3D Model Showcase */}
+                                        <div className="absolute inset-0 bg-black overflow-hidden">
+                                            {/* Image Carousel */}
+                                            <motion.div
+                                                className="flex h-full"
+                                                animate={{ x: `-${currentSlide * 100}%` }}
+                                                transition={{ duration: 0.6, ease: "easeInOut" }}
                                             >
-                                                <source src="/video/preview.mp4" type="video/mp4" />
-                                            </video>
+                                                {showcaseImages.map((img, index) => (
+                                                    <div key={index} className="min-w-full h-full relative">
+                                                        <img
+                                                            src={img.src}
+                                                            alt={img.alt}
+                                                            className="w-full h-full object-cover"
+                                                            loading={index === 0 ? "eager" : "lazy"}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </motion.div>
+
+                                            {/* Slide Indicators */}
+                                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                                {showcaseImages.map((_, index) => (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => setCurrentSlide(index)}
+                                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                                            currentSlide === index
+                                                                ? 'bg-white w-6'
+                                                                : 'bg-white/40 hover:bg-white/60'
+                                                        }`}
+                                                    />
+                                                ))}
+                                            </div>
 
                                             {/* Cinematic overlays */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none" />
-                                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-purple-500/5 pointer-events-none" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
                                         </div>
 
                                         {/* Home indicator */}
