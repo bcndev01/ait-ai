@@ -9,7 +9,6 @@ import AppShowcase from './components/AppShowcase';
 import Gamification from './components/Gamification';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
-import CTA from './components/CTA';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import FeatureSpotlight from './components/FeatureSpotlight';
@@ -31,7 +30,6 @@ const HomePage: React.FC = () => {
         <Gamification />
         <Testimonials />
         <FAQ />
-        <CTA />
       </main>
       <Footer />
     </>

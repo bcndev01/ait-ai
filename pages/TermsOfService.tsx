@@ -25,7 +25,7 @@ const TermsOfService: React.FC = () => {
             Terms of Service
           </h1>
           <p className="text-gray-400 mb-8">
-            <strong>AceIt AI</strong> | Effective Date: January 10, 2025 | Last Updated: January 10, 2025
+            <strong>AceIt AI</strong> | Effective Date: January 10, 2026 | Last Updated: January 10, 2026
           </p>
 
           <hr className="border-white/10 my-8" />
@@ -527,7 +527,7 @@ const TermsOfService: React.FC = () => {
           <hr className="border-white/10 my-8" />
 
           <p className="text-gray-500 text-sm">
-            © 2025 AceIt AI. All rights reserved.
+            © 2026 AceIt AI. All rights reserved.
           </p>
         </div>
       </main>

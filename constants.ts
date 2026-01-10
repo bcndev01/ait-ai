@@ -92,22 +92,72 @@ export const TESTIMONIALS: Testimonial[] = [
 export const FAQS: FAQItem[] = [
   {
     id: '1',
-    question: "How accurate is the handwriting recognition?",
-    answer: "Our Smart Scanner uses advanced OCR technology with a 98% accuracy rate, even on messy handwriting. It understands diagrams too!"
+    question: "What is AceIt AI?",
+    answer: "AceIt AI is an all-in-one AI-powered study companion app designed to help students ace their exams. It combines intelligent tools like AI Tutor, Quiz Generator, Smart Flashcards, Study Notes, Mind Maps, and interactive 3D models to make studying more effective and engaging."
   },
   {
     id: '2',
-    question: "Can I use it offline?",
-    answer: "Yes! Your library and previously generated content are available offline. You only need internet for generating new AI content."
+    question: "Who is AceIt AI for?",
+    answer: "AceIt AI is designed for students of all levels - high school, college, university, and lifelong learners. Whether you're preparing for exams, studying daily assignments, or exploring new subjects, AceIt AI has tools to help you succeed."
   },
   {
     id: '3',
-    question: "Is there a limit to how many quizzes I can make?",
-    answer: "Free users get 5 quizzes per day. AceIt Pro users get unlimited generation and access to the advanced Voice Explainer models."
+    question: "What devices are supported?",
+    answer: "AceIt AI is available for iPhone and iPad running iOS 16 or later."
   },
   {
     id: '4',
-    question: "Does it work for math and science?",
-    answer: "Absolutely. We support LaTeX rendering for math equations and have specialized models for chemistry and physics problem solving."
+    question: "Is AceIt AI available in my language?",
+    answer: "Currently, AceIt AI supports English, Turkish, German, French, Spanish, and Arabic. We're working on adding more languages."
+  },
+  {
+    id: '5',
+    question: "Do I need an internet connection to use AceIt AI?",
+    answer: "Yes, an internet connection is required for AI-powered features like AI Tutor, Quiz Generator, and Study Notes. However, you can access previously saved flashcards and content offline."
+  },
+  {
+    id: '6',
+    question: "What is AI Tutor?",
+    answer: "AI Tutor is your 24/7 personal study assistant. Ask any academic question and get instant, detailed explanations. It's like having a tutor available whenever you need help."
+  },
+  {
+    id: '7',
+    question: "How does the Quiz Generator work?",
+    answer: "Simply enter a topic, select your preferred difficulty level (Easy, Medium, Hard) and question types (Multiple Choice, True/False, Fill-in-the-Blank), and AI will generate a customized practice quiz for you."
+  },
+  {
+    id: '8',
+    question: "What are Smart Flashcards?",
+    answer: "Create flashcard decks manually or let AI generate them for you. Our spaced repetition algorithm helps you review cards at optimal intervals to maximize retention."
+  },
+  {
+    id: '9',
+    question: "How do AI Study Notes work?",
+    answer: "Enter any topic and AI generates comprehensive study notes including key concepts, explanations, mnemonics, exam tips, and common mistakes to avoid. You can also export notes as PDF."
+  },
+  {
+    id: '10',
+    question: "What is Mind Map Generator?",
+    answer: "Mind Map Generator creates visual concept maps that show relationships between ideas. It's perfect for visual learners who want to see how topics connect."
+  },
+  {
+    id: '11',
+    question: "What is the 3D Educational Playground?",
+    answer: "Explore 100+ interactive 3D models covering human anatomy, biology, chemistry, and physics. Rotate, zoom, and tap on hotspots to learn about each structure."
+  },
+  {
+    id: '12',
+    question: "How does the Smart Scanner work?",
+    answer: "Use your camera to scan textbook pages, handwritten notes, or any document. The app extracts the text and lets you generate quizzes, flashcards, or study notes from the scanned content."
+  },
+  {
+    id: '13',
+    question: "What is Question Solver?",
+    answer: "Stuck on a problem? Type or scan your question and get step-by-step solutions with detailed explanations to help you understand the process."
+  },
+  {
+    id: '14',
+    question: "What subjects does AceIt AI cover?",
+    answer: "AceIt AI can help with virtually any academic subject including Math, Science, Biology, Chemistry, Physics, History, Geography, Literature, Languages, and more."
   }
 ];

@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">© 2025 AceIt AI. All rights reserved.</p>
+          <p className="text-sm text-gray-500">© 2026 AceIt AI. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link to="/privacy-policy" className="text-xs text-gray-500 hover:text-gray-400 transition-colors">
               Privacy
