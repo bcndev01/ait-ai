@@ -87,11 +87,71 @@ const GlowRing: React.FC<{ size: number; delay: number; color: string }> = ({ si
     );
 };
 
-// 3D Model showcase images - add your images to /public/images/3d-models/
+// Optimized Image component with progressive loading and WebP support
+const OptimizedImage: React.FC<{
+    webp: string;
+    png: string;
+    alt: string;
+    priority?: boolean;
+}> = ({ webp, png, alt, priority = false }) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isInView, setIsInView] = useState(priority);
+    const imgRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (priority || !imgRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '100px' }
+        );
+
+        observer.observe(imgRef.current);
+        return () => observer.disconnect();
+    }, [priority]);
+
+    return (
+        <div ref={imgRef} className="min-w-full h-full relative bg-black">
+            {/* Blur placeholder */}
+            <div
+                className={`absolute inset-0 bg-gradient-to-br from-purple-900/50 to-cyan-900/50 transition-opacity duration-500 ${isLoaded ? 'opacity-0' : 'opacity-100'}`}
+            />
+
+            {/* Loading spinner */}
+            {!isLoaded && isInView && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
+                </div>
+            )}
+
+            {/* Picture element with WebP and PNG fallback */}
+            {isInView && (
+                <picture className="contents">
+                    <source srcSet={webp} type="image/webp" />
+                    <img
+                        src={png}
+                        alt={alt}
+                        className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        onLoad={() => setIsLoaded(true)}
+                        loading={priority ? "eager" : "lazy"}
+                        decoding="async"
+                    />
+                </picture>
+            )}
+        </div>
+    );
+};
+
+// 3D Model showcase images - WebP with PNG fallback
 const showcaseImages = [
-    { src: '/images/3d-models/heart.png', alt: 'Human Heart 3D Model' },
-    { src: '/images/3d-models/brain.png', alt: 'Human Brain 3D Model' },
-    { src: '/images/3d-models/eye.png', alt: 'Human Eye 3D Model' },
+    { webp: '/images/3d-models/heart.webp', png: '/images/3d-models/heart-optimized.png', alt: 'Human Heart 3D Model' },
+    { webp: '/images/3d-models/brain.webp', png: '/images/3d-models/brain-optimized.png', alt: 'Human Brain 3D Model' },
+    { webp: '/images/3d-models/eye.webp', png: '/images/3d-models/eye-optimized.png', alt: 'Human Eye 3D Model' },
 ];
 
 const FeatureSpotlight: React.FC = () => {
@@ -401,21 +461,20 @@ const FeatureSpotlight: React.FC = () => {
 
                                         {/* Auto-sliding 3D Model Showcase */}
                                         <div className="absolute inset-0 bg-black overflow-hidden">
-                                            {/* Image Carousel */}
+                                            {/* Image Carousel - optimized with progressive loading */}
                                             <motion.div
-                                                className="flex h-full"
+                                                className="flex h-full will-change-transform"
                                                 animate={{ x: `-${currentSlide * 100}%` }}
                                                 transition={{ duration: 0.6, ease: "easeInOut" }}
                                             >
                                                 {showcaseImages.map((img, index) => (
-                                                    <div key={index} className="min-w-full h-full relative">
-                                                        <img
-                                                            src={img.src}
-                                                            alt={img.alt}
-                                                            className="w-full h-full object-cover"
-                                                            loading={index === 0 ? "eager" : "lazy"}
-                                                        />
-                                                    </div>
+                                                    <OptimizedImage
+                                                        key={index}
+                                                        webp={img.webp}
+                                                        png={img.png}
+                                                        alt={img.alt}
+                                                        priority={index === 0}
+                                                    />
                                                 ))}
                                             </motion.div>
 
