@@ -1,7 +1,34 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { motion, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { Atom, Layers, Zap, Sparkles, Globe, Dna } from 'lucide-react';
+
+// Custom hook for mobile detection and reduced motion preference
+const useOptimizedAnimations = () => {
+    const [isMobile, setIsMobile] = useState(false);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() => {
+        // Check for mobile device
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+        };
+
+        // Check for reduced motion preference
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        setPrefersReducedMotion(motionQuery.matches);
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        motionQuery.addEventListener('change', (e) => setPrefersReducedMotion(e.matches));
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
+
+    return { isMobile, prefersReducedMotion, shouldReduceAnimations: isMobile || prefersReducedMotion };
+};
 
 // Orbital floating element component
 const FloatingOrbit: React.FC<{
@@ -70,18 +97,17 @@ const showcaseImages = [
 const FeatureSpotlight: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const { scrollYProgress } = useScroll();
-    const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+    const { shouldReduceAnimations, isMobile } = useOptimizedAnimations();
 
-    // Auto-slide every 3 seconds
+    // Auto-slide every 3 seconds (slower on mobile to reduce repaints)
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % showcaseImages.length);
-        }, 3000);
+            setCurrentSlide((prev: number) => (prev + 1) % showcaseImages.length);
+        }, isMobile ? 5000 : 3000);
         return () => clearInterval(interval);
-    }, []);
+    }, [isMobile]);
 
-    // Mouse parallax
+    // Mouse parallax - disabled on mobile/touch devices
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const springConfig = { stiffness: 100, damping: 20 };
@@ -89,6 +115,9 @@ const FeatureSpotlight: React.FC = () => {
     const parallaxY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
+        // Skip parallax on mobile - major performance drain
+        if (shouldReduceAnimations) return;
+
         const handleMouseMove = (e: MouseEvent) => {
             if (!containerRef.current) return;
             const rect = containerRef.current.getBoundingClientRect();
@@ -100,7 +129,16 @@ const FeatureSpotlight: React.FC = () => {
 
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
+    }, [mouseX, mouseY, shouldReduceAnimations]);
+
+    // Generate star positions only once (memoized)
+    const starPositions = useMemo(() =>
+        [...Array(shouldReduceAnimations ? 8 : 30)].map(() => ({
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            duration: 2 + Math.random() * 3,
+            delay: Math.random() * 2
+        })), [shouldReduceAnimations]);
 
     const features = [
         {
@@ -131,58 +169,78 @@ const FeatureSpotlight: React.FC = () => {
             ref={containerRef}
             className="relative w-full min-h-screen py-24 px-6 overflow-hidden flex items-center justify-center bg-gradient-to-b from-[#0a0f1a] via-[#0F172A] to-[#0a0f1a]"
         >
-            {/* Enhanced Dynamic Background */}
+            {/* Enhanced Dynamic Background - Optimized for mobile */}
             <div className="absolute inset-0 w-full h-full overflow-hidden">
-                {/* Animated gradient orbs */}
-                <motion.div
-                    className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[150px]"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        x: [0, 50, 0],
-                        y: [0, -30, 0]
-                    }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.div
-                    className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px]"
-                    animate={{
-                        scale: [1, 1.3, 1],
-                        x: [0, -40, 0],
-                        y: [0, 40, 0]
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                />
-                <motion.div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[180px]"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                />
-
-                {/* Star field effect */}
-                <div className="absolute inset-0 opacity-50">
-                    {[...Array(30)].map((_, i) => (
+                {/* Animated gradient orbs - static on mobile, animated on desktop */}
+                {shouldReduceAnimations ? (
+                    // Static gradient background for mobile - no blur, no animation
+                    <>
+                        <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-purple-600/20 rounded-full blur-[60px]" />
+                        <div className="absolute bottom-1/4 left-1/4 w-[250px] h-[250px] bg-cyan-600/15 rounded-full blur-[50px]" />
+                    </>
+                ) : (
+                    // Full animations for desktop
+                    <>
                         <motion.div
-                            key={i}
-                            className="absolute w-1 h-1 bg-white rounded-full"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                            }}
+                            className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[150px] will-change-transform"
                             animate={{
-                                opacity: [0.2, 0.8, 0.2],
-                                scale: [1, 1.5, 1]
+                                scale: [1, 1.2, 1],
+                                x: [0, 50, 0],
+                                y: [0, -30, 0]
                             }}
-                            transition={{
-                                duration: 2 + Math.random() * 3,
-                                repeat: Infinity,
-                                delay: Math.random() * 2
-                            }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                         />
+                        <motion.div
+                            className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px] will-change-transform"
+                            animate={{
+                                scale: [1, 1.3, 1],
+                                x: [0, -40, 0],
+                                y: [0, 40, 0]
+                            }}
+                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        />
+                        <motion.div
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[180px] will-change-transform"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                        />
+                    </>
+                )}
+
+                {/* Star field effect - reduced count on mobile */}
+                <div className="absolute inset-0 opacity-50">
+                    {starPositions.map((star, i) => (
+                        shouldReduceAnimations ? (
+                            // Static stars on mobile
+                            <div
+                                key={i}
+                                className="absolute w-1 h-1 bg-white rounded-full opacity-40"
+                                style={{ left: star.left, top: star.top }}
+                            />
+                        ) : (
+                            // Animated stars on desktop
+                            <motion.div
+                                key={i}
+                                className="absolute w-1 h-1 bg-white rounded-full will-change-[opacity,transform]"
+                                style={{ left: star.left, top: star.top }}
+                                animate={{
+                                    opacity: [0.2, 0.8, 0.2],
+                                    scale: [1, 1.5, 1]
+                                }}
+                                transition={{
+                                    duration: star.duration,
+                                    repeat: Infinity,
+                                    delay: star.delay
+                                }}
+                            />
+                        )
                     ))}
                 </div>
 
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+                {/* Noise texture - hidden on mobile for performance */}
+                {!shouldReduceAnimations && (
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+                )}
             </div>
 
             <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -297,18 +355,24 @@ const FeatureSpotlight: React.FC = () => {
                             }}
                             className="relative"
                         >
-                            {/* Orbital Elements */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <FloatingOrbit icon={Atom} size={20} orbitSize={480} duration={20} delay={0} color="#06b6d4" />
-                                <FloatingOrbit icon={Dna} size={18} orbitSize={420} duration={25} delay={2} color="#a855f7" reverse />
-                                <FloatingOrbit icon={Globe} size={22} orbitSize={540} duration={30} delay={4} color="#3b82f6" />
-                                <FloatingOrbit icon={Sparkles} size={16} orbitSize={380} duration={18} delay={1} color="#f59e0b" reverse />
-                            </div>
+                            {/* Orbital Elements - hidden on mobile for performance */}
+                            {!shouldReduceAnimations && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <FloatingOrbit icon={Atom} size={20} orbitSize={480} duration={20} delay={0} color="#06b6d4" />
+                                    <FloatingOrbit icon={Dna} size={18} orbitSize={420} duration={25} delay={2} color="#a855f7" reverse />
+                                    <FloatingOrbit icon={Globe} size={22} orbitSize={540} duration={30} delay={4} color="#3b82f6" />
+                                    <FloatingOrbit icon={Sparkles} size={16} orbitSize={380} duration={18} delay={1} color="#f59e0b" reverse />
+                                </div>
+                            )}
 
-                            {/* Glow Rings */}
-                            <GlowRing size={450} delay={0} color="rgba(6, 182, 212, 0.3)" />
-                            <GlowRing size={500} delay={0.5} color="rgba(139, 92, 246, 0.2)" />
-                            <GlowRing size={550} delay={1} color="rgba(59, 130, 246, 0.15)" />
+                            {/* Glow Rings - hidden on mobile for performance */}
+                            {!shouldReduceAnimations && (
+                                <>
+                                    <GlowRing size={450} delay={0} color="rgba(6, 182, 212, 0.3)" />
+                                    <GlowRing size={500} delay={0.5} color="rgba(139, 92, 246, 0.2)" />
+                                    <GlowRing size={550} delay={1} color="rgba(59, 130, 246, 0.15)" />
+                                </>
+                            )}
 
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.8 }}
