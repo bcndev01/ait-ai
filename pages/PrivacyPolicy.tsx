@@ -180,6 +180,12 @@ const PrivacyPolicy: React.FC = () => {
           <section className="mb-12">
             <h2 className="text-2xl font-semibold text-white mb-4">4. AI Processing and Your Data</h2>
 
+            <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+              <p className="text-gray-300 text-sm">
+                <strong className="text-blue-400">AI Processing Notice:</strong> To provide AI-powered features, your content may be processed by third-party AI service providers. These providers have their own privacy policies governing data handling. We select providers that meet industry-standard security and privacy requirements.
+              </p>
+            </div>
+
             <h3 className="text-xl font-medium text-purple-400 mt-6 mb-3">4.1 How AI Features Work</h3>
             <p className="text-gray-300 leading-relaxed">
               AceIt AI uses advanced artificial intelligence to power features like the AI Tutor, Quiz Generator, Study Notes, Mind Maps, and Question Solver. When you use these features, your input is processed by secure cloud-based AI services to generate helpful educational content.

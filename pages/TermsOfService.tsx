@@ -336,12 +336,19 @@ const TermsOfService: React.FC = () => {
               The App uses third-party services to operate, including cloud infrastructure, AI processing, and analytics providers. Your use of the App is also subject to their respective terms and policies.
             </p>
 
-            <h3 className="text-xl font-medium text-purple-400 mt-6 mb-3">11.2 App Store</h3>
+            <h3 className="text-xl font-medium text-purple-400 mt-6 mb-3">11.2 Third-Party AI Services</h3>
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mt-3">
+              <p className="text-gray-300 text-sm">
+                <strong className="text-yellow-400">Important:</strong> This application uses third-party artificial intelligence services to provide its core features. In the event that these services become unavailable, experience pricing changes, or are discontinued, app functionality may be affected. We will make reasonable efforts to find alternative solutions, but cannot guarantee uninterrupted service.
+              </p>
+            </div>
+
+            <h3 className="text-xl font-medium text-purple-400 mt-6 mb-3">11.3 App Store</h3>
             <p className="text-gray-300">
               The App is distributed through the Apple App Store. Your use is also subject to Apple's terms and conditions.
             </p>
 
-            <h3 className="text-xl font-medium text-purple-400 mt-6 mb-3">11.3 Disclaimer</h3>
+            <h3 className="text-xl font-medium text-purple-400 mt-6 mb-3">11.4 Disclaimer</h3>
             <p className="text-gray-300">
               We are not responsible for the actions, content, or policies of any third-party services.
             </p>
