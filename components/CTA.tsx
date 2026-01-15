@@ -27,10 +27,10 @@ const CTA: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
-             <button className="px-8 py-4 bg-white text-purple-600 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-xl flex items-center gap-2 transform hover:scale-105 duration-200">
+             <a href="https://apps.apple.com/tr/app/aceit-ai-tutor-quiz/id6757408189" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-purple-600 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-xl flex items-center gap-2 transform hover:scale-105 duration-200">
               Download Now
               <ArrowRight size={20} />
-            </button>
+            </a>
             <span className="text-purple-200 text-sm font-medium">Free 7-day trial for Pro features</span>
           </div>
         </motion.div>

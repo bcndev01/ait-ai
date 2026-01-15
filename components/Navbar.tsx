@@ -51,9 +51,9 @@ const Navbar: React.FC = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full" />
             </a>
           ))}
-          <button className="px-6 py-2.5 rounded-full bg-white text-black font-semibold text-sm hover:bg-purple-50 transition-colors transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <a href="https://apps.apple.com/tr/app/aceit-ai-tutor-quiz/id6757408189" target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 rounded-full bg-white text-black font-semibold text-sm hover:bg-purple-50 transition-colors transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
             Download App
-          </button>
+          </a>
         </div>
 
         <button
@@ -83,9 +83,9 @@ const Navbar: React.FC = () => {
                 {item}
               </a>
             ))}
-            <button className="w-full py-4 rounded-xl bg-purple-600 text-white font-bold text-lg">
+            <a href="https://apps.apple.com/tr/app/aceit-ai-tutor-quiz/id6757408189" target="_blank" rel="noopener noreferrer" className="block w-full py-4 rounded-xl bg-purple-600 text-white font-bold text-lg text-center">
               Download App
-            </button>
+            </a>
           </div>
         </motion.div>
       )}

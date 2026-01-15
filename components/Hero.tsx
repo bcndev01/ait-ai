@@ -51,10 +51,10 @@ const Hero: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-            <button className="relative group px-8 py-4 bg-white text-black rounded-2xl font-bold text-lg overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transform hover:-translate-y-1">
+            <a href="https://apps.apple.com/tr/app/aceit-ai-tutor-quiz/id6757408189" target="_blank" rel="noopener noreferrer" className="relative group px-8 py-4 bg-white text-black rounded-2xl font-bold text-lg overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transform hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-blue-100 opacity-0 group-hover:opacity-100 transition-opacity" />
               <span className="relative z-10">Download on App Store</span>
-            </button>
+            </a>
             <button className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm text-white font-medium hover:bg-white/10 transition-all flex items-center gap-2">
               <span>Watch Demo</span>
               <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
