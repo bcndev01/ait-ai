@@ -12,8 +12,8 @@
 // ⚠️ Apple Developer → Membership → Team ID (10 chars)
 const TEAM_ID = "BYB658Q2R2";
 const BUNDLE_ID = "ozapplab.com.AceItAISolver";
-const APP_STORE_URL = "https://apps.apple.com/app/id0000000000";
-const APPLE_APP_ID = "0000000000";
+const APP_STORE_URL = "https://apps.apple.com/app/id6762195085";
+const APPLE_APP_ID = "6762195085";
 
 const AASA = {
   applinks: {
