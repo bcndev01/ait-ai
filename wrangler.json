@@ -1,8 +1,10 @@
 {
     "name": "aceit-web",
     "compatibility_date": "2025-11-27",
+    "main": "./src/worker.ts",
     "assets": {
         "directory": "./dist",
+        "binding": "ASSETS",
         "not_found_handling": "single-page-application"
     }
 }
